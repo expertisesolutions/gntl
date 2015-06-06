@@ -1,0 +1,222 @@
+# (c) Copyright 2011-2014 Felipe Magno de Almeida
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import testing ;
+import targets ;
+import type ;
+import feature ;
+
+feature.feature gntl-debug :  off on : composite link-incompatible propagated ;
+feature.compose <gntl-debug>on : <define>GNTL_ENABLE_DEBUG ;
+
+project gntl
+ : requirements
+   <define>BOOST_ALL_NO_LIB=1
+   <toolset>msvc:<define>_CRT_SECURE_NO_WARNINGS
+   <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
+   <toolset>gcc:<cxxflags>-Wno-strict-aliasing    # Too many spurious warnings
+ ;
+
+alias gntl : /boost//headers : : <include>include : <include>include ;
+explicit gntl ;
+
+rule structure-composed-run ( sources + )
+{
+  return
+  [ run $(sources) /gntl//gntl
+  ] ;
+}
+
+rule parser-run ( sources + )
+{
+  return
+  [ run $(sources) /gntl//gntl
+    : : : <include>tests/parser/libxml2
+  ] ;
+}
+
+rule algorithm-run ( sources + )
+{
+  return
+  [ run $(sources) /gntl//gntl
+  ] ;
+}
+
+rule algorithm-compile ( sources + )
+{
+  return
+  [ compile $(sources) /gntl//gntl ] ;
+}
+
+rule parser-compile ( sources + )
+{
+  return
+  [ compile $(sources) /gntl//gntl ] ;
+}
+
+rule parser-compile-fail ( sources + )
+{
+  return
+  [ compile-fail $(sources) /gntl//gntl ] ;
+}
+
+alias compile-parser-tests
+ :
+   [ parser-compile-fail tests/parser/concept/parse_transition_base_algorithm_fail1.cpp ]
+   [ parser-compile-fail tests/parser/concept/parse_rule_base_algorithm_fail1.cpp ]
+   [ parser-compile-fail tests/parser/concept/parse_region_base_algorithm_fail1.cpp ]
+   [ parser-compile tests/parser/concept/parse_rule_base_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_transition_base_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_region_base_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_descriptor_base_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_connector_base_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_context_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_media_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_link_algorithm.cpp ]
+   [ parser-compile tests/parser/concept/parse_body_algorithm.cpp ]
+ ;
+explicit compile-parser-tests ;
+
+alias runtime-parser-tests
+ : 
+   [ parser-run tests/parser/libxml2/parse_empty_import_documents.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_import_ncl_import_documents1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_rule_rule_base1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_rule_base.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_body1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_transition_base.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_descriptor_base.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_empty_connector_base.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_transition_transition_base1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_descriptor_descriptor_base1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_simple_condition_connector1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_empty_compound_condition_connector1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_empty_compound_compound_connector1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_simple_compound_condition_connector1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_assessment_compound_condition_simple_action1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_empty_compound_statement_compound_condition1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_compound_statement_compound_condition1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/connector/parse_value_assessment_compound_condition1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_region_base.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_region_region_base1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_inner_regions_region_base1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/attribute_quotes.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/attribute_encoding_conversion.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_context1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_context_context1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_media_context1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_link_context1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_link_param_link_context1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_binds_link_context1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_bindparam_binds_link_context1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_empty_media1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_property_media1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_import_document_base_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_rule_base_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_transition_base_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_one_region_base_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_two_region_base_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_descriptor_base_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_connector_base_head1.cpp /libxml2//libxml2 ]
+   [ parser-run tests/parser/libxml2/parse_document1.cpp /libxml2//libxml2 ]
+ ;
+explicit runtime-parser-tests ;
+
+alias parser-tests : runtime-parser-tests compile-parser-tests ;
+explicit parser-tests ;
+
+rule parser-create-exe ( sources + : requirements * )
+{
+  local target-name = $(sources[1]:D=:S=) ;
+
+if --android in [ modules.peek : ARGV ]
+{
+    exe parser-create-exe-$(target-name) : $(sources) /gntl//gntl
+      : $(requirements) ;
+    explicit parser-create-exe-$(target-name) ;
+    return parser-create-exe-$(target-name) ;
+}
+else
+{
+    lib parser-create-exe-$(target-name) : $(sources) /gntl//gntl
+      : $(requirements) ;
+    explicit parser-create-exe-$(target-name) ;
+    return parser-create-exe-$(target-name) ;
+}
+}
+
+install stage-runtime-parser-tests
+  :
+     [ parser-create-exe tests/parser/concept/parse_import_documents_algorithm.cpp ]
+     [ parser-create-exe tests/parser/concept/parse_rule_base_algorithm.cpp ]
+     [ parser-create-exe tests/parser/concept/parse_transition_base_algorithm.cpp ]
+     [ parser-create-exe tests/parser/libxml2/parse_empty_import_documents.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/parse_import_ncl_import_documents1.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/parse_rule_rule_base1.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/parse_empty_rule_base.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/parse_empty_transition_base.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/parse_transition_transition_base1.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/parse_empty_region_base.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/parse_region_region_base1.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/attribute_quotes.cpp /libxml2//libxml2 ]
+     [ parser-create-exe tests/parser/libxml2/attribute_encoding_conversion.cpp /libxml2//libxml2 ]
+ ;
+explicit stage-runtime-parser-tests ;
+
+alias runtime-algorithm-tests
+ : 
+   [ algorithm-run tests/algorithm/media/start_media_normal_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/start_media_user_defined_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/abort_media_normal_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/abort_media_user_defined_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/pause_media_normal_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/pause_media_user_defined_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/stop_media_normal_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/stop_media_user_defined_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/resume_media_normal_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/resume_media_user_defined_action_default_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/port/start_port1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/context/start_context1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/context/stop_context1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/document/create_document_with_libxml2_dom1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/start_media_with_descriptor1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/start_media_with_dimensions1.cpp /libxml2//libxml2 ]
+   [ algorithm-run tests/algorithm/media/start_media_with_dimensions_through_property1.cpp /libxml2//libxml2 ]
+ ;
+explicit runtime-algorithm-tests ;
+
+alias compile-algorithm-tests
+ :
+   [ algorithm-compile tests/algorithm/document/concept_check1.cpp ]
+ ;
+explicit compile-algorithm-tests ;
+
+alias algorithm-tests : runtime-algorithm-tests compile-algorithm-tests ;
+explicit algorithm-tests ;
+
+alias structure-composed-tests
+ :
+   [ structure-composed-run tests/structure/composed/link_causal_simple_condition_simple_action1.cpp /libxml2//libxml2 ]
+   [ structure-composed-run tests/structure/composed/link_causal_simple_condition_without_bind1.cpp /libxml2//libxml2 ]
+   [ structure-composed-run tests/structure/composed/link_causal_compound_condition1.cpp /libxml2//libxml2 ]
+ ;
+explicit structure-composed-tests ;
+
+alias tests : parser-tests algorithm-tests
+ structure-composed-tests
+ ;
+explicit tests ;
+

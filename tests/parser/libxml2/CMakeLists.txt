@@ -1,0 +1,213 @@
+# (c) Copyright 2011-2014 Felipe Magno de Almeida
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+include_directories(.)
+
+# attribute_encoding_conversion.cpp
+add_executable(attribute_encoding_conversion_exe attribute_encoding_conversion.cpp)
+target_link_libraries(attribute_encoding_conversion_exe ${LIBXML2_LIBRARIES})
+add_test(attribute_encoding_conversion attribute_encoding_conversion_exe)
+
+# attribute_quotes.cpp
+add_executable(attribute_quotes_exe attribute_quotes.cpp)
+target_link_libraries(attribute_quotes_exe ${LIBXML2_LIBRARIES})
+add_test(attribute_quotes_test attribute_quotes_exe)
+
+# parse_bindparam_binds_link_context1.cpp
+add_executable(parse_bindparam_binds_link_context1_exe parse_bindparam_binds_link_context1.cpp)
+target_link_libraries(parse_bindparam_binds_link_context1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_bindparam_binds_link_context1_test parse_bindparam_binds_link_context1_exe)
+
+# parse_binds_link_context1.cpp
+add_executable(parse_binds_link_context1_exe parse_binds_link_context1.cpp)
+target_link_libraries(parse_binds_link_context1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_binds_link_context1_test parse_binds_link_context1_exe)
+
+# parse_connector_base_head1.cpp
+add_executable(parse_connector_base_head1_exe parse_connector_base_head1.cpp)
+target_link_libraries(parse_connector_base_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_connector_base_head1_test parse_connector_base_head1_exe)
+
+# parse_context_context1.cpp
+add_executable(parse_context_context1_exe parse_context_context1.cpp)
+target_link_libraries(parse_context_context1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_context_context1_test parse_context_context1_exe)
+
+# parse_descriptor_base_head1.cpp
+add_executable(parse_descriptor_base_head1_exe parse_descriptor_base_head1.cpp)
+target_link_libraries(parse_descriptor_base_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_descriptor_base_head1_test parse_descriptor_base_head1_exe)
+
+# parse_descriptor_descriptor_base1.cpp
+add_executable(parse_descriptor_descriptor_base1_exe parse_descriptor_descriptor_base1.cpp)
+target_link_libraries(parse_descriptor_descriptor_base1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_descriptor_descriptor_base1_test parse_descriptor_descriptor_base1_exe)
+
+# parse_document1.cpp
+add_executable(parse_document1_exe parse_document1.cpp)
+target_link_libraries(parse_document1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_document1_test parse_document1_exe)
+
+# parse_empty_body1.cpp
+add_executable(parse_empty_body1_exe parse_empty_body1.cpp)
+target_link_libraries(parse_empty_body1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_body1_test parse_empty_body1_exe)
+
+# parse_empty_context1.cpp
+add_executable(parse_empty_context1_exe parse_empty_context1.cpp)
+target_link_libraries(parse_empty_context1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_context1_test parse_empty_context1_exe)
+
+# parse_empty_descriptor_base.cpp
+add_executable(parse_empty_descriptor_base_exe parse_empty_descriptor_base.cpp)
+target_link_libraries(parse_empty_descriptor_base_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_descriptor_base_test parse_empty_descriptor_base_exe)
+
+# parse_empty_head1.cpp
+add_executable(parse_empty_head1_exe parse_empty_head1.cpp)
+target_link_libraries(parse_empty_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_head1_test parse_empty_head1_exe)
+
+# parse_empty_import_documents.cpp
+add_executable(parse_empty_import_documents_exe parse_empty_import_documents.cpp)
+target_link_libraries(parse_empty_import_documents_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_import_documents_test parse_empty_import_documents_exe)
+
+# parse_empty_media1.cpp
+add_executable(parse_empty_media1_exe parse_empty_media1.cpp)
+target_link_libraries(parse_empty_media1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_media1_test parse_empty_media1_exe)
+
+# parse_empty_region_base.cpp
+add_executable(parse_empty_region_base_exe parse_empty_region_base.cpp)
+target_link_libraries(parse_empty_region_base_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_region_base_test parse_empty_region_base_exe)
+
+# parse_empty_rule_base.cpp
+add_executable(parse_empty_rule_base_exe parse_empty_rule_base.cpp)
+target_link_libraries(parse_empty_rule_base_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_rule_base_test parse_empty_rule_base_exe)
+
+# parse_empty_transition_base.cpp
+add_executable(parse_empty_transition_base_exe parse_empty_transition_base.cpp)
+target_link_libraries(parse_empty_transition_base_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_transition_base_test parse_empty_transition_base_exe)
+
+# parse_import_document_base_head1.cpp
+add_executable(parse_import_document_base_head1_exe parse_import_document_base_head1.cpp)
+target_link_libraries(parse_import_document_base_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_import_document_base_head1_test parse_import_document_base_head1_exe)
+
+# parse_import_ncl_import_documents1.cpp
+add_executable(parse_import_ncl_import_documents1_exe parse_import_ncl_import_documents1.cpp)
+target_link_libraries(parse_import_ncl_import_documents1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_import_ncl_import_documents1_test parse_import_ncl_import_documents1_exe)
+
+# parse_inner_regions_region_base1.cpp
+add_executable(parse_inner_regions_region_base1_exe parse_inner_regions_region_base1.cpp)
+target_link_libraries(parse_inner_regions_region_base1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_inner_regions_region_base1_test parse_inner_regions_region_base1_exe)
+
+# parse_link_context1.cpp
+add_executable(parse_link_context1_exe parse_link_context1.cpp)
+target_link_libraries(parse_link_context1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_link_context1_test parse_link_context1_exe)
+
+# parse_link_param_link_context1.cpp
+add_executable(parse_link_param_link_context1_exe parse_link_param_link_context1.cpp)
+target_link_libraries(parse_link_param_link_context1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_link_param_link_context1_test parse_link_param_link_context1_exe)
+
+# parse_media_context1.cpp
+add_executable(parse_media_context1_exe parse_media_context1.cpp)
+target_link_libraries(parse_media_context1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_media_context1_test parse_media_context1_exe)
+
+# parse_one_region_base_head1.cpp
+add_executable(parse_one_region_base_head1_exe parse_one_region_base_head1.cpp)
+target_link_libraries(parse_one_region_base_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_one_region_base_head1_test parse_one_region_base_head1_exe)
+
+# parse_property_media1.cpp
+add_executable(parse_property_media1_exe parse_property_media1.cpp)
+target_link_libraries(parse_property_media1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_property_media1_test parse_property_media1_exe)
+
+# parse_region_region_base1.cpp
+add_executable(parse_region_region_base1_exe parse_region_region_base1.cpp)
+target_link_libraries(parse_region_region_base1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_region_region_base1_test parse_region_region_base1_exe)
+
+# parse_rule_base_head1.cpp
+add_executable(parse_rule_base_head1_exe parse_rule_base_head1.cpp)
+target_link_libraries(parse_rule_base_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_rule_base_head1_test parse_rule_base_head1_exe)
+
+# parse_rule_rule_base1.cpp
+add_executable(parse_rule_rule_base1_exe parse_rule_rule_base1.cpp)
+target_link_libraries(parse_rule_rule_base1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_rule_rule_base1_test parse_rule_rule_base1_exe)
+
+# parse_transition_base_head1.cpp
+add_executable(parse_transition_base_head1_exe parse_transition_base_head1.cpp)
+target_link_libraries(parse_transition_base_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_transition_base_head1_test parse_transition_base_head1_exe)
+
+# parse_transition_transition_base1.cpp
+add_executable(parse_transition_transition_base1_exe parse_transition_transition_base1.cpp)
+target_link_libraries(parse_transition_transition_base1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_transition_transition_base1_test parse_transition_transition_base1_exe)
+
+# parse_two_region_base_head1.cpp
+add_executable(parse_two_region_base_head1_exe parse_two_region_base_head1.cpp)
+target_link_libraries(parse_two_region_base_head1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_two_region_base_head1_test parse_two_region_base_head1_exe)
+
+# connectors tests
+add_executable(parse_assessment_compound_condition_simple_action1_exe connector/parse_assessment_compound_condition_simple_action1.cpp)
+target_link_libraries(parse_assessment_compound_condition_simple_action1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_assessment_compound_condition_simple_action1_test parse_assessment_compound_condition_simple_action1_exe)
+
+add_executable(parse_compound_statement_compound_condition1_exe connector/parse_compound_statement_compound_condition1.cpp)
+target_link_libraries(parse_compound_statement_compound_condition1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_compound_statement_compound_condition1_test parse_compound_statement_compound_condition1_exe)
+
+add_executable(parse_empty_compound_compound_connector1_exe connector/parse_empty_compound_compound_connector1.cpp)
+target_link_libraries(parse_empty_compound_compound_connector1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_compound_compound_connector1_test parse_empty_compound_compound_connector1_exe)
+
+add_executable(parse_empty_compound_condition_connector1_exe connector/parse_empty_compound_condition_connector1.cpp)
+target_link_libraries(parse_empty_compound_condition_connector1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_compound_condition_connector1_test parse_empty_compound_condition_connector1_exe)
+
+add_executable(parse_empty_compound_statement_compound_condition1_exe connector/parse_empty_compound_statement_compound_condition1.cpp)
+target_link_libraries(parse_empty_compound_statement_compound_condition1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_compound_statement_compound_condition1_test parse_empty_compound_statement_compound_condition1_exe)
+
+add_executable(parse_empty_connector_base_exe connector/parse_empty_connector_base.cpp)
+target_link_libraries(parse_empty_connector_base_exe ${LIBXML2_LIBRARIES})
+add_test(parse_empty_connector_base_test parse_empty_connector_base_exe)
+
+add_executable(parse_simple_compound_condition_connector1_exe connector/parse_simple_compound_condition_connector1.cpp)
+target_link_libraries(parse_simple_compound_condition_connector1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_simple_compound_condition_connector1_test parse_simple_compound_condition_connector1_exe)
+
+add_executable(parse_simple_condition_connector1_exe connector/parse_simple_condition_connector1.cpp)
+target_link_libraries(parse_simple_condition_connector1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_simple_condition_connector1_test parse_simple_condition_connector1_exe)
+
+add_executable(parse_value_assessment_compound_condition1_exe connector/parse_value_assessment_compound_condition1.cpp)
+target_link_libraries(parse_value_assessment_compound_condition1_exe ${LIBXML2_LIBRARIES})
+add_test(parse_value_assessment_compound_condition1_test parse_value_assessment_compound_condition1_exe)
