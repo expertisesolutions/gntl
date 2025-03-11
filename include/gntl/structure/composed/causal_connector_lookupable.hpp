@@ -19,6 +19,7 @@
 
 #include <gntl/parameter.hpp>
 #include <gntl/concept/lookupable.hpp>
+#include <gntl/log/log.hpp>
 
 #include <map>
 

@@ -24,6 +24,8 @@
 #include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
 #include <boost/preprocessor/arithmetic/dec.hpp>
 
+#include <gntl/algorithm/structure/media/dimensions.hpp>
+
 #include <gntl/detail/push_options.hpp>
 
 namespace gntl { namespace algorithm { namespace structure { namespace media {

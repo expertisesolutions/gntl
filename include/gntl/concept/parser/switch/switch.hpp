@@ -28,6 +28,7 @@
 #include <boost/type_traits/is_same.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/assert.hpp>
+#include <boost/mpl/identity.hpp>
 
 #include <gntl/detail/push_options.hpp>
 

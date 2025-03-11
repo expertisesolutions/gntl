@@ -46,8 +46,8 @@ namespace gntl { namespace structure { namespace composed {
 template <typename Executor, typename StructureDescriptor>
 struct presentation
 {
-  presentation(Executor e, StructureDescriptor descriptor)
-    : shared_state_(new shared_state(e, descriptor)) {}
+  presentation(Executor&& e, StructureDescriptor descriptor)
+    : shared_state_(new shared_state(std::forward<Executor>(e), descriptor)) {}
 
   typedef Executor executor_type;
 
@@ -67,8 +67,8 @@ struct presentation
     bool focused;
     bool selected;
 
-    shared_state(Executor e, StructureDescriptor descriptor)
-      : executor(e), descriptor(descriptor)
+    shared_state(Executor&& e, StructureDescriptor descriptor)
+      : executor(std::forward<Executor>(e)), descriptor(descriptor)
       , state(sleeping), occurrences(0)
       , focused(false), selected(false)
     {

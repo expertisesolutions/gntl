@@ -19,6 +19,7 @@
 
 #include <gntl/concept/lookupable.hpp>
 #include <gntl/ref.hpp>
+#include <gntl/log/log.hpp>
 
 #include <boost/mpl/contains.hpp>
 #include <boost/mpl/push_back.hpp>

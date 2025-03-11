@@ -24,7 +24,7 @@
 #include <boost/mpl/void.hpp>
 #if BOOST_VERSION >= 104000
 #include <boost/spirit/home/qi.hpp>
-#include <boost/spirit/home/phoenix.hpp>
+#include <boost/phoenix/phoenix.hpp>
 #endif
 #include <boost/optional.hpp>
 

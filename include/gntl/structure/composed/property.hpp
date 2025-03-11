@@ -69,7 +69,7 @@ struct property_traits<gntl::structure::composed::property<String, Integer, Deci
 
   static bool has_value(property_type const& p)
   {
-    return p.current_value;
+    return !!p.current_value;
   }
 
   struct get_stringified

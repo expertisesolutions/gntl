@@ -194,7 +194,7 @@ struct switch_traits<gntl::structure::composed::switch_<ParserSwitch, Presentati
   }
   static bool is_presentation_occurring(switch_type const&s)
   {
-    return s.active_component;
+    return !!s.active_component;
   }
   static bool is_presentation_sleeping(switch_type const&s)
   {
