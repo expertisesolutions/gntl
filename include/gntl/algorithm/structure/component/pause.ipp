@@ -31,39 +31,44 @@
 
 namespace gntl { namespace algorithm { namespace structure { namespace component {
 
-template <typename Media, typename Descriptor, typename Document>
-void pause_aux(Media c, Descriptor descriptor, Document d, media_tag)
+template <typename Media, typename Descriptor, typename Document
+          , typename...Args>
+void pause_aux(Media c, Descriptor descriptor, Document d, media_tag, Args...args)
 {
   typedef typename boost::unwrap_reference<Media>::type component_type;
   typedef typename boost::unwrap_reference<Document>::type document_type;
 
   GNTL_DEBUG_LOG("pause media " << concept::identifier(c) << std::endl)
-  gntl::algorithm::structure::media::pause (c, descriptor, d);
+  gntl::algorithm::structure::media::pause (c, descriptor, d, args...);
 }
 
-template <typename Context, typename Descriptor, typename Document>
-void pause_aux(Context c, Descriptor descriptor, Document d, context_tag)
+template <typename Context, typename Descriptor, typename Document
+          , typename...Args>
+void pause_aux(Context c, Descriptor descriptor, Document d, context_tag, Args...args)
 {
-  gntl::algorithm::structure::context::pause (c, descriptor, d);
+  gntl::algorithm::structure::context::pause (c, descriptor, d, args...);
 }
 
-template <typename Switch, typename Descriptor, typename Document>
-void pause_aux(Switch s, Descriptor descriptor, Document d, switch_tag)
+template <typename Switch, typename Descriptor, typename Document
+          , typename...Args>
+void pause_aux(Switch s, Descriptor descriptor, Document d, switch_tag, Args...args)
 {
 }
 
-template <typename Port, typename Descriptor, typename Document>
-void pause_aux(Port p, Descriptor descriptor, Document d, port_tag)
+template <typename Port, typename Descriptor, typename Document
+          , typename...Args>
+void pause_aux(Port p, Descriptor descriptor, Document d, port_tag, Args...args)
 {
   //algorithm::structure::port::pause(p, d);
 }
 
-template <typename Component, typename Descriptor, typename Document>
-void pause(Component c, Descriptor descriptor, Document d)
+template <typename Component, typename Descriptor, typename Document
+          , typename...Args>
+void pause(Component c, Descriptor descriptor, Document d, Args...args)
 {
   typedef typename boost::unwrap_reference<Component>::type component_type;
   typedef typename structure::component::tag<component_type>::type tag_type;
-  component::pause_aux(c, descriptor, d, tag_type());
+  component::pause_aux(c, descriptor, d, tag_type(), args...);
 }
 
 } } } }

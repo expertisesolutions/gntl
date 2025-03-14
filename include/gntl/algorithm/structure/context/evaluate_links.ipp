@@ -36,27 +36,27 @@ struct set_condition
 {
   typedef void result_type;
   template <typename Link, typename ComponentIdentifier
-            , typename OptionalInterface>
+            , typename OptionalInterface, typename...Args>
   result_type operator()(Link link, ComponentIdentifier component
                          , OptionalInterface interface_
                          , gntl::transition_type transition
-                         , gntl::event_type event) const
+                         , gntl::event_type event, Args...args) const
   {
     algorithm::structure::link
-      ::set_condition(link, component, interface_, transition, event);
+      ::set_condition(link, component, interface_, transition, event, args...);
   }
 };
 
 struct set_key_select_condition
 {
   typedef void result_type;
-  template <typename Link, typename Key, typename Context>
+  template <typename Link, typename Key, typename Context, typename...Args>
   result_type operator()(Link link, Key key, Context context
                          , gntl::transition_type transition
-                         , gntl::event_type event) const
+                         , gntl::event_type event, Args...args) const
   {
     algorithm::structure::link
-      ::set_key_select_condition(link, key, context, transition, event);
+      ::set_key_select_condition(link, key, context, transition, event, args...);
   }
 };
 
@@ -64,15 +64,16 @@ struct execute_action
 {
   typedef void result_type;
   template <typename Action, typename Document, typename Context
-            , typename ContextLocation, typename Dimensions>
+            , typename ContextLocation, typename Dimensions, typename...Args>
   result_type operator()(Action action, Document document, Context context
-                         , ContextLocation context_location, Dimensions full_screen) const
+                         , ContextLocation context_location, Dimensions full_screen
+                         , Args...args) const
   {
     structure::action::execute(action
                                , boost::bind
                                (structure::action::default_operation_functor()
                                 , _1, document, context, context_location
-                                , full_screen));
+                                , full_screen, args...));
   }
 };
 
@@ -80,9 +81,11 @@ struct evaluate
 {
   typedef void result_type;
   template <typename Link, typename Document, typename Context
-            , typename ContextLocation, typename Dimensions>
+            , typename ContextLocation, typename Dimensions
+            , typename...Args>
   result_type operator()(Link link, Document document, Context context
-                         , ContextLocation context_location, Dimensions full_screen) const
+                         , ContextLocation context_location, Dimensions full_screen
+                         , Args...args) const
   {
     if(link::evaluate(link, document, context))
     {
@@ -94,7 +97,7 @@ struct evaluate
       structure::action::execute (link_traits::action_expression(link)
                                   , boost::bind
                                   (execute_action()
-                                   , _1, document, context, context_location, full_screen)
+                                   , _1, document, context, context_location, full_screen, args...)
                                   );
     }
   }
@@ -102,9 +105,11 @@ struct evaluate
 
 }
 
-template <typename Context, typename ContextLocation, typename Document, typename Event, typename Dimensions>
+template <typename Context, typename ContextLocation, typename Document, typename Event, typename Dimensions
+          , typename...Args>
 void evaluate_links(Context context, ContextLocation context_location
-                    , Document document, Event event, Dimensions screen_dimensions)
+                    , Document document, Event event, Dimensions screen_dimensions,
+                    Args...args)
 {
   typedef typename unwrap_parameter<Context>::type context_type;
   typedef concept::structure::context_traits<context_type> context_traits;
@@ -121,7 +126,7 @@ void evaluate_links(Context context, ContextLocation context_location
     gntl::range::for_each(context_traits::link_all(context)
                           , boost::bind(context_detail::evaluate()
                                         , _1, document, context, context_location
-                                        , screen_dimensions));
+                                        , screen_dimensions, args...));
 
     typedef typename context_traits::context_range context_value_range;
     context_value_range contexts = context_traits::context_all(context);
@@ -131,7 +136,7 @@ void evaluate_links(Context context, ContextLocation context_location
           ;first != last; ++first)
     {
       context::evaluate_links(gntl::ref_once(*first), context_location
-                              , document, event, screen_dimensions);
+                              , document, event, screen_dimensions, args...);
     }
 
   //   typedef typename context_traits::switch_range switch_value_range;
@@ -149,9 +154,10 @@ void evaluate_links(Context context, ContextLocation context_location
 }
 
 template <typename Context, typename ContextLocation, typename Document
-          , typename Key, typename Dimensions>
+          , typename Key, typename Dimensions, typename...Args>
 void evaluate_select_links(Context context, ContextLocation context_location
-                           , Document document, Key key, Dimensions screen_dimensions)
+                           , Document document, Key key, Dimensions screen_dimensions
+                           , Args...args)
 {
   typedef typename unwrap_parameter<Context>::type context_type;
   typedef concept::structure::context_traits<context_type> context_traits;
@@ -177,7 +183,7 @@ void evaluate_select_links(Context context, ContextLocation context_location
           ;first != last; ++first)
     {
       context::evaluate_select_links(gntl::ref_once(*first)
-                                     , context_location, document, key, screen_dimensions);
+                                     , context_location, document, key, screen_dimensions, args...);
     }
 
     // typedef typename context_traits::switch_range switch_value_range;

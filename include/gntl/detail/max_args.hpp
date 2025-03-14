@@ -15,5 +15,5 @@
  */
 
 #ifndef GNTL_MAX_ARGS
-#define GNTL_MAX_ARGS 8
+#define GNTL_MAX_ARGS 15
 #endif

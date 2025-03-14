@@ -32,42 +32,42 @@
 
 namespace gntl { namespace algorithm { namespace structure { namespace component {
 
-template <typename Media, typename Descriptor, typename Document>
+template <typename Media, typename Descriptor, typename Document, typename...Args>
 void abort_aux(Media c, Descriptor descriptor
-               , Document d, media_tag)
+               , Document d, media_tag, Args...args)
 {
   typedef typename boost::unwrap_reference<Media>::type component_type;
   typedef concept::structure::media_traits<component_type> media_traits;
   typedef typename boost::unwrap_reference<Document>::type document_type;
 
   typedef typename media_traits::descriptor_type descriptor_type;
-  gntl::algorithm::structure::media::abort (c, descriptor, d);
+  gntl::algorithm::structure::media::abort (c, descriptor, d, args...);
 }
 
-template <typename Context, typename Descriptor, typename Document>
+template <typename Context, typename Descriptor, typename Document, typename...Args>
 void abort_aux(Context c, Descriptor descriptor
-               , Document d, context_tag)
+               , Document d, context_tag, Args...args)
 {
-  gntl::algorithm::structure::context::abort (c, descriptor, d);
+  gntl::algorithm::structure::context::abort (c, descriptor, d, args...);
 }
 
-template <typename Switch, typename Descriptor, typename Document>
-void abort_aux(Switch s, Descriptor descriptor, Document d, switch_tag)
+template <typename Switch, typename Descriptor, typename Document, typename...Args>
+void abort_aux(Switch s, Descriptor descriptor, Document d, switch_tag, Args...args)
 {
 }
 
-template <typename Port, typename Descriptor, typename Document>
-void abort_aux(Port p, Descriptor descriptor, Document d, port_tag)
+template <typename Port, typename Descriptor, typename Document, typename...Args>
+void abort_aux(Port p, Descriptor descriptor, Document d, port_tag, Args...args)
 {
   //algorithm::structure::port::abort(p, d);
 }
 
-template <typename Component, typename Descriptor, typename Document>
-void abort(Component c, Descriptor descriptor, Document d)
+template <typename Component, typename Descriptor, typename Document, typename...Args>
+void abort(Component c, Descriptor descriptor, Document d, Args...args)
 {
   typedef typename boost::unwrap_reference<Component>::type component_type;
   typedef typename structure::component::tag<component_type>::type tag_type;
-  component::abort_aux(c, descriptor, d, tag_type());
+  component::abort_aux(c, descriptor, d, tag_type(), args...);
 }
 
 } } } }

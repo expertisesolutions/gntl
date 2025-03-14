@@ -25,11 +25,13 @@
 
 namespace gntl { namespace algorithm { namespace structure { namespace context {
 
-template <typename Context, typename ContextLocation, typename Document, typename Event, typename Dimensions>
-void evaluate_links(Context context, ContextLocation context_location, Document document, Event event, Dimensions screen_dimensions);
+template <typename Context, typename ContextLocation, typename Document, typename Event, typename Dimensions
+          , typename...Args>
+void evaluate_links(Context context, ContextLocation context_location, Document document, Event event, Dimensions screen_dimensions, Args...);
 
-template <typename Context, typename ContextLocation, typename Document, typename Key, typename Dimensions>
-void evaluate_select_links(Context context, ContextLocation context_location, Document document, Key key, Dimensions screen_dimensions);
+template <typename Context, typename ContextLocation, typename Document, typename Key, typename Dimensions
+          , typename...Args>
+void evaluate_select_links(Context context, ContextLocation context_location, Document document, Key key, Dimensions screen_dimensions, Args...);
 
 } } } }
 

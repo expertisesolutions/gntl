@@ -21,8 +21,8 @@
 
 namespace gntl { namespace algorithm { namespace structure { namespace component {
 
-template <typename Component, typename Descriptor, typename Document>
-void pause(Component c, Descriptor descriptor, Document d);
+template <typename Component, typename Descriptor, typename Document, typename...Args>
+void pause(Component c, Descriptor descriptor, Document d, Args...args);
 
 } } } }
 

@@ -45,13 +45,15 @@ struct adapted_start
 {
   typedef void result_type;
   template <typename Component, typename Location, typename OptionalInterface
-            , typename Descriptor, typename Value, typename Document, typename Dimensions>
+            , typename Descriptor, typename Value, typename Document, typename Dimensions
+            , typename...Args>
   result_type operator()(Component component, Location l, OptionalInterface i
                          , Descriptor descriptor, boost::optional<Value> v
-                         , Document document, Dimensions screen_dimensions) const
+                         , Document document, Dimensions screen_dimensions
+                         , Args...args) const
   {
     algorithm::structure::component::start(component, l, i, descriptor, v, document
-                                           , screen_dimensions);
+                                           , screen_dimensions, args...);
     // algorithm::structure::context::register_interface_for_component
     //   (context, component, document, gntl::transition_enum::starts
     //    , gntl::event_enum::presentation);
@@ -62,12 +64,13 @@ struct adapted_stop
 {
   typedef void result_type;
   template <typename Component, typename Location, typename OptionalInterface
-            , typename Descriptor, typename Value, typename Document, typename Dimensions>
+            , typename Descriptor, typename Value, typename Document, typename Dimensions
+            , typename...Args>
   result_type operator()(Component component, Location l, OptionalInterface i
                          , Descriptor descriptor, boost::optional<Value>, Document document
-                         , Dimensions) const
+                         , Dimensions, Args...args) const
   {
-    algorithm::structure::component::stop(component, descriptor, document);
+    algorithm::structure::component::stop(component, descriptor, document, args...);
     // algorithm::structure::context::register_interface_for_component
     //   (context, component, document, gntl::transition_enum::stops
     //    , gntl::event_enum::presentation);
@@ -78,12 +81,13 @@ struct adapted_pause
 {
   typedef void result_type;
   template <typename Component, typename Location, typename OptionalInterface
-            , typename Descriptor, typename Value, typename Document, typename Dimensions>
+            , typename Descriptor, typename Value, typename Document, typename Dimensions
+            , typename...Args>
   result_type operator()(Component component, Location l, OptionalInterface i
                          , Descriptor descriptor, boost::optional<Value>
-                         , Document document, Dimensions) const
+                         , Document document, Dimensions, Args...args) const
   {
-    algorithm::structure::component::pause(component, descriptor, document);
+    algorithm::structure::component::pause(component, descriptor, document, args...);
     // algorithm::structure::context::register_interface_for_component
     //   (context, component, document, gntl::transition_enum::pauses
     //    , gntl::event_enum::presentation);
@@ -94,12 +98,13 @@ struct adapted_resume
 {
   typedef void result_type;
   template <typename Component, typename Location, typename OptionalInterface
-            , typename Descriptor, typename Value, typename Document, typename Dimensions>
+            , typename Descriptor, typename Value, typename Document, typename Dimensions
+            , typename...Args>
   result_type operator()(Component component, Location l, OptionalInterface i
                          , Descriptor descriptor, boost::optional<Value>, Document document
-                         , Dimensions) const
+                         , Dimensions, Args...args) const
   {
-    algorithm::structure::component::resume(component, descriptor, document);
+    algorithm::structure::component::resume(component, descriptor, document, args...);
     // algorithm::structure::context::register_interface_for_component
     //   (context, component, document, gntl::transition_enum::resumes
     //    , gntl::event_enum::presentation);
@@ -110,28 +115,30 @@ struct adapted_abort
 {
   typedef void result_type;
   template <typename Component, typename Location, typename OptionalInterface
-            , typename Descriptor, typename Value, typename Document, typename Dimensions>
+            , typename Descriptor, typename Value, typename Document, typename Dimensions
+            , typename...Args>
   result_type operator()(Component component, Location l, OptionalInterface
                          , Descriptor descriptor, boost::optional<Value>, Document document
-                         , Dimensions) const
+                         , Dimensions, Args...args) const
   {
-    algorithm::structure::component::abort(component, descriptor, document);
+    algorithm::structure::component::abort(component, descriptor, document, args...);
     // algorithm::structure::context::register_interface_for_component
     //   (context, component, document, gntl::transition_enum::aborts
     //    , gntl::event_enum::presentation);
   }
 };
 
-template <typename Functor, typename Component>
-void generic_visitor (Functor f, Component c)
+template <typename Functor, typename Component, typename...Args>
+void generic_visitor (Functor f, Component c, Args...args)
 {
-  f(c);
+  f(c, args...);
 }
 
-template <typename Functor, BOOST_VARIANT_ENUM_PARAMS(typename T)>
-void generic_visitor (Functor f, boost::variant<BOOST_VARIANT_ENUM_PARAMS(T)> v)
+template <typename Functor, BOOST_VARIANT_ENUM_PARAMS(typename T), typename...Args>
+void generic_visitor (Functor f, boost::variant<BOOST_VARIANT_ENUM_PARAMS(T)> v
+                      , Args...args)
 {
-  boost::apply_visitor(f, gntl::unwrap_ref(v));
+  boost::apply_visitor(f, gntl::unwrap_ref(v), args...);
 }
 
 template <typename Dimensions>
@@ -148,7 +155,8 @@ struct default_operation_for_concrete_component
             , typename Value
             , typename Document
             , typename BoundSimpleAction
-            , typename ActionBoundComponent>
+            , typename ActionBoundComponent
+            , typename...Args>
   result_type operator()(Component component
                          , Context context
                          , Location location
@@ -157,7 +165,8 @@ struct default_operation_for_concrete_component
                          , boost::optional<Value> value
                          , Document document
                          , BoundSimpleAction bound_simple_action
-                         , ActionBoundComponent bound_component) const
+                         , ActionBoundComponent bound_component
+                         , Args...args) const
   {
     GNTL_DEBUG_LOG("found component" << std::endl)
 
@@ -225,7 +234,7 @@ struct default_operation_for_concrete_component
     
     switch_functor f;
     action_detail::generic_visitor(boost::bind(f, ev, ac, _1, location, interface_, descriptor
-                                               , value, document, full_screen)
+                                               , value, document, full_screen, args...)
                                    , component);
   }
 
@@ -236,13 +245,14 @@ struct default_operation_for_concrete_component
 
 template <typename BoundSimpleAction, typename ActionBoundComponent
           , typename Document, typename Context, typename ContextLocation
-          , typename Dimensions>
+          , typename Dimensions, typename...Args>
 void default_operation_for_component(BoundSimpleAction action
                                      , ActionBoundComponent component
                                      , Document document
                                      , Context context
                                      , ContextLocation context_location
-                                     , Dimensions full_screen)
+                                     , Dimensions full_screen
+                                     , Args...args)
 {
   typedef typename boost::unwrap_reference<BoundSimpleAction>::type
     bound_simple_action_type;
@@ -303,7 +313,8 @@ void default_operation_for_component(BoundSimpleAction action
       (context_location, action_bound_component_traits::component(component));
     component::lookup(action_bound_component_traits::component(component)
                       , boost::bind(action_detail::default_operation_for_concrete_component<Dimensions>(full_screen)
-                                    , _1, context, location, interface_, descriptor, value, document, action, component)
+                                    , _1, context, location, interface_, descriptor, value, document, action, component
+                                    , args...)
                       , context_traits::media_lookup(context)
                       , context_traits::context_lookup(context)
                       , context_traits::switch_lookup(context)
@@ -319,9 +330,10 @@ void default_operation_for_component(BoundSimpleAction action
 }
 
 template <typename BoundSimpleAction, typename Document, typename Context
-          , typename ContextLocation, typename Dimensions>
+          , typename ContextLocation, typename Dimensions, typename...Args>
 void default_operation (BoundSimpleAction action, Document document, Context context
-                        , ContextLocation context_location, Dimensions full_screen)
+                        , ContextLocation context_location, Dimensions full_screen
+                        , Args...args)
 {
   GNTL_DEBUG_LOG("default_operation " << typeid(BoundSimpleAction).name() << std::endl)
   typedef typename boost::unwrap_reference<BoundSimpleAction>::type
@@ -368,7 +380,7 @@ void default_operation (BoundSimpleAction action, Document document, Context con
         ;++Iter)
   {
     default_operation_for_component(action, *Iter, document, context, context_location
-                                    , full_screen);
+                                    , full_screen, args...);
   }
 }
 
@@ -376,11 +388,13 @@ struct default_operation_functor
 {
   typedef void result_type;
   template <typename BoundSimpleAction, typename Document, typename Context
-            , typename ContextLocation, typename Dimensions>
+            , typename ContextLocation, typename Dimensions
+            , typename...Args>
   result_type operator()(BoundSimpleAction action, Document document, Context context
-                         , ContextLocation context_location, Dimensions full_screen) const
+                         , ContextLocation context_location, Dimensions full_screen
+                         , Args...args) const
   {
-    default_operation(action, document, context, context_location, full_screen);
+    default_operation(action, document, context, context_location, full_screen, args...);
   }
 };
 

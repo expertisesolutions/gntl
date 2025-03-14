@@ -32,40 +32,40 @@
 
 namespace gntl { namespace algorithm { namespace structure { namespace component {
 
-template <typename Media, typename Descriptor, typename Document>
-void stop_aux(Media c, Descriptor descriptor, Document d, media_tag)
+template <typename Media, typename Descriptor, typename Document, typename...Args>
+void stop_aux(Media c, Descriptor descriptor, Document d, media_tag, Args...args)
 {
   typedef typename boost::unwrap_reference<Media>::type media_type;
   typedef typename boost::unwrap_reference<Document>::type document_type;
 
   GNTL_DEBUG_LOG("stop media " << concept::identifier(c) << std::endl)
-  gntl::algorithm::structure::media::stop (c, descriptor, d);
+  gntl::algorithm::structure::media::stop (c, descriptor, d, args...);
 }
 
-template <typename Context, typename Descriptor, typename Document>
-void stop_aux(Context c, Descriptor descriptor, Document d, context_tag)
+template <typename Context, typename Descriptor, typename Document, typename...Args>
+void stop_aux(Context c, Descriptor descriptor, Document d, context_tag, Args...args)
 {
-  gntl::algorithm::structure::context::stop (c, descriptor, d);
+  gntl::algorithm::structure::context::stop (c, descriptor, d, args...);
 }
 
-template <typename Switch, typename Descriptor, typename Document>
-void stop_aux(Switch s, Descriptor descriptor, Document d, switch_tag)
+template <typename Switch, typename Descriptor, typename Document, typename...Args>
+void stop_aux(Switch s, Descriptor descriptor, Document d, switch_tag, Args...args)
 {
-  algorithm::structure::switch_::stop(s, d); 
+  algorithm::structure::switch_::stop(s, d, args...);
 }
 
-template <typename Port, typename Descriptor, typename Document>
-void stop_aux(Port p, Descriptor descriptor, Document d, port_tag)
+template <typename Port, typename Descriptor, typename Document, typename...Args>
+void stop_aux(Port p, Descriptor descriptor, Document d, port_tag, Args...args)
 {
   //algorithm::structure::port::stop(p, d); 
 }
 
-template <typename Component, typename Descriptor, typename Document>
-void stop(Component c, Descriptor descriptor, Document d)
+template <typename Component, typename Descriptor, typename Document, typename...Args>
+void stop(Component c, Descriptor descriptor, Document d, Args...args)
 {
   typedef typename boost::unwrap_reference<Component>::type component_type;
   typedef typename structure::component::tag<component_type>::type tag_type;
-  component::stop_aux(c, descriptor, d, tag_type());
+  component::stop_aux(c, descriptor, d, tag_type(), args...);
 }
 
 } } } }

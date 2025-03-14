@@ -26,61 +26,70 @@
 
 namespace gntl { namespace algorithm { namespace structure { namespace component {
 
-template <typename Media, typename Interface, typename Descriptor, typename Value, typename Document>
+template <typename Media, typename Interface, typename Descriptor, typename Value, typename Document
+        , typename...Args>
 void set_aux(Media m, boost::optional<Interface> i, Descriptor descriptor
              , boost::optional<Value> value
-             , Document d, media::dimensions full_screen, media_tag)
+             , Document d, media::dimensions full_screen, media_tag
+        , Args...args)
 {
   if(i && value)
-    algorithm::structure::media::set(m, *i, descriptor, *value, d, full_screen);
+    algorithm::structure::media::set(m, *i, descriptor, *value, d, full_screen, args...);
 }
 
-template <typename Context, typename Interface, typename Descriptor, typename Value, typename Document>
+template <typename Context, typename Interface, typename Descriptor, typename Value, typename Document
+        , typename...Args>
 void set_aux(Context /*c*/, boost::optional<Interface> /*i*/, Descriptor /*descriptor*/
              , boost::optional<Value> /*v*/, Document /*d*/, media::dimensions /*full_screen*/
-             , structure::component::context_tag)
+             , structure::component::context_tag
+        , Args...args)
 {
   GNTL_DEBUG_LOG("set command for context" << std::endl)
 }
 
-template <typename Switch, typename Interface, typename Descriptor, typename Value, typename Document>
+template <typename Switch, typename Interface, typename Descriptor, typename Value, typename Document
+        , typename...Args>
 void set_aux(Switch /*s*/, boost::optional<Interface> /*i*/, Descriptor /*descriptor*/
              , boost::optional<Value> /*v*/, Document /*d*/
              , media::dimensions /*full_screen*/
-             , structure::component::switch_tag)
+             , structure::component::switch_tag
+        , Args...args)
 {
   GNTL_DEBUG_LOG("set command for switch" << std::endl)
 }
 
-template <typename Port, typename Interface, typename Descriptor, typename Value, typename Document>
+template <typename Port, typename Interface, typename Descriptor, typename Value, typename Document
+        , typename...Args>
 void set_aux(Port s, boost::optional<Interface> i, Descriptor /*descriptor*/
              , boost::optional<Value> /*v*/, Document /*d*/
              , media::dimensions /*full_screen*/
-             , structure::component::port_tag)
+             , structure::component::port_tag
+        , Args...args)
 {
   GNTL_DEBUG_LOG("set command for port" << std::endl)
 }
 
 template <typename Component, typename Interface, typename Descriptor, typename Value
-          , typename Document>
+          , typename Document, typename...Args>
 void set(Component c, boost::optional<Interface> i, Descriptor descriptor, boost::optional<Value> v
-           , Document d, media::dimensions full_screen)
+           , Document d, media::dimensions full_screen
+           , Args...args)
 {
   typedef typename boost::unwrap_reference<Component>::type component_type;
   typedef typename structure::component::tag<component_type>::type tag_type;
-  component::set_aux(c, i, descriptor, v, d, full_screen, tag_type());
+  component::set_aux(c, i, descriptor, v, d, full_screen, tag_type(), args...);
 }
 
 struct set_start_functor
 {
   typedef void result_type;
   template <typename Component, typename Location, typename Interface, typename Descriptor
-            , typename Value, typename Document>
+            , typename Value, typename Document, typename...Args>
   result_type operator()(Component c, Location l, boost::optional<Interface> i, Descriptor descriptor
                          , boost::optional<Value> value
-                         , Document d, media::dimensions full_screen) const
+                         , Document d, media::dimensions full_screen, Args...args) const
   {
-    component::set(c, i, descriptor, value, d, full_screen);
+    component::set(c, i, descriptor, value, d, full_screen, args...);
   }
 };
 

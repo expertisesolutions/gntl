@@ -86,11 +86,11 @@ struct Presentation
     convertible_to<bool>(traits::start_set_property(i, property_name, property_int_value));
     convertible_to<bool>(traits::commit_set_property(i, property_name));
     convertible_to<bool>(traits::wants_keys(i));
-    traits::pause(i);
-    traits::stop(i);
-    traits::natural_end(i);
-    traits::abort(i);
-    traits::resume(i);
+    //traits::pause(i);
+    //traits::stop(i);
+    //traits::natural_end(i);
+    //traits::abort(i);
+    //traits::resume(i);
     traits::focused(i);
     traits::selected(i);
     traits::reset_focus(i);

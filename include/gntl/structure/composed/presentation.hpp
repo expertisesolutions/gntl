@@ -290,44 +290,50 @@ struct presentation_traits<gntl::structure::composed::presentation<Executor, Des
     return executor_traits::commit_set_property(p.shared_state_->executor, property_name);
   }
 
-#define BOOST_PP_ITERATION_PARAMS_1 (3, (1, GNTL_MAX_ARGS, "gntl/structure/composed/presentation.hpp"))
-#include BOOST_PP_ITERATE ()
+//#define BOOST_PP_ITERATION_PARAMS_1 (3, (1, GNTL_MAX_ARGS, "gntl/structure/composed/presentation.hpp"))
+//#include BOOST_PP_ITERATE ()
 
-  static void start(presentation_type& p)
+  template <typename...Args>
+  static void start(presentation_type& p, Args...args)
   {
     // If you have an error here, then you probably forgot to to
     // implement the correct static start function in your
     // presentation_traits.
-    executor_traits::start(p.shared_state_->executor);
+    executor_traits::start(p.shared_state_->executor, args...);
     p.shared_state_->state = presentation_type::occurring;
   }
-  static void pause(presentation_type& p)
+  template <typename...Args>
+  static void pause(presentation_type& p, Args...args)
   {
     // If you have an error here, then you probably forgot to to
     // implement the correct static start function in your
     // presentation_traits.
-    executor_traits::pause(p.shared_state_->executor);
+    executor_traits::pause(p.shared_state_->executor, args...);
     p.shared_state_->state = presentation_type::paused;
   }
-  static void stop(presentation_type& p)
+  template <typename...Args>
+  static void stop(presentation_type& p, Args...args)
   {
-    executor_traits::stop(p.shared_state_->executor);
+    executor_traits::stop(p.shared_state_->executor, args...);
     ++p.shared_state_->occurrences;
     p.shared_state_->state = presentation_type::sleeping;
   }
-  static void natural_end(presentation_type& p)
+  template <typename...Args>
+  static void natural_end(presentation_type& p, Args...args)
   {
     ++p.shared_state_->occurrences;
     p.shared_state_->state = presentation_type::sleeping;
   }
-  static void abort(presentation_type& p)
+  template <typename...Args>
+  static void abort(presentation_type& p, Args...args)
   {
-    executor_traits::abort(p.shared_state_->executor);
+    executor_traits::abort(p.shared_state_->executor, args...);
     p.shared_state_->state = presentation_type::sleeping;
   }
-  static void resume(presentation_type& p)
+  template <typename...Args>
+  static void resume(presentation_type& p, Args...args)
   {
-    executor_traits::resume(p.shared_state_->executor);
+    executor_traits::resume(p.shared_state_->executor, args...);
     p.shared_state_->state = presentation_type::occurring;
   }
 };
