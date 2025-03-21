@@ -70,6 +70,17 @@ struct component_location_traits<gntl::structure::composed::component_location
   {
     return c.identifier();
   }
+  static component_location parent(component_location c) {
+    if (!c.path.empty()) {
+      c.identifier = c.path.back();
+      c.path.pop_back();
+      return c;
+    }
+    return c;
+  }
+  static std::vector<identifier_type> path(component_location const& c) {
+    return c.path;
+  }
   static document_uri_type document_uri(component_location const&);
   static component_location compose(component_location context
                                     , identifier_type const& identifier)
