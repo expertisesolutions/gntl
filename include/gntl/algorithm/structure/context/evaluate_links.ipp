@@ -173,7 +173,7 @@ void evaluate_select_links(Context context, ContextLocation context_location
     gntl::range::for_each(context_traits::link_all(context)
                           , boost::bind(context_detail::evaluate()
                                         , _1, document, context, context_location
-                                        , screen_dimensions));
+                                        , screen_dimensions, args...));
 
     typedef typename context_traits::context_range context_value_range;
     context_value_range contexts = context_traits::context_all(context);
