@@ -14,15 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined(BOOST_PP_IS_ITERATING)
-
 #ifndef GNTL_ALGORITHM_STRUCTURE_MEDIA_NATURAL_END_ACTION_TRAITS_HPP
 #define GNTL_ALGORITHM_STRUCTURE_MEDIA_NATURAL_END_ACTION_TRAITS_HPP
-
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
-#include <boost/preprocessor/arithmetic/dec.hpp>
 
 #include <gntl/detail/push_options.hpp>
 
@@ -30,20 +23,12 @@ namespace gntl { namespace algorithm { namespace structure { namespace media {
 
 struct natural_end_action_traits
 {
-#define BOOST_PP_ITERATION_PARAMS_1 (3, (0, GNTL_MAX_ARGS               \
-  , "gntl/algorithm/structure/media/natural_end_action_traits.hpp"))
-#include BOOST_PP_ITERATE ()
-
+    template <typename Media, typename Presentation, typename Document, typename...Args>
+    static void natural_end(Media m, Presentation presentation, Document document, Args&&...args);
 };
 
 } } } }
 
 #include <gntl/detail/pop_options.hpp>
 
-#endif
-#else
-template <typename Media, typename Presentation, typename Document
-          BOOST_PP_ENUM_TRAILING_PARAMS (BOOST_PP_ITERATION (), typename A)>
-static void natural_end(Media m, Presentation presentation, Document document
-                        BOOST_PP_ENUM_TRAILING_BINARY_PARAMS (BOOST_PP_ITERATION (), A, a));
 #endif

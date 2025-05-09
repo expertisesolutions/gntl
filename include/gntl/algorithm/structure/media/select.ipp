@@ -29,9 +29,9 @@
 namespace gntl { namespace algorithm { namespace structure { namespace media {
 
 template <typename Media, typename Presentation, typename Document
-          , typename Key, typename Descriptor>
+          , typename Key, typename Descriptor, typename...Args>
 void focus_select_with_descriptor(Media m, Presentation p, Document d
-                                  , Key key, Descriptor descriptor)
+                                  , Key key, Descriptor descriptor, Args&&... args)
 {
   typedef typename boost::unwrap_reference<Media>::type media_type;
   typedef typename boost::unwrap_reference<Document>::type document_type;
@@ -42,6 +42,7 @@ void focus_select_with_descriptor(Media m, Presentation p, Document d
   typedef concept::structure::descriptor_traits<descriptor_type> descriptor_traits;
   typedef concept::structure::presentation_traits<presentation_type> presentation_traits;
 
+  GNTL_DEBUG_LOG("key " << key << std::endl);
   typedef typename descriptor_traits::focus_index_type focus_index_type;
   focus_index_type focus_index;
   if(key == "CURSOR_UP" && descriptor_traits::has_move_up(descriptor))
@@ -139,12 +140,12 @@ void focus_select_with_descriptor(Media m, Presentation p, Document d
             c = media::calculate_focused_border (first->second, descriptor
                                                  , presentation_traits::is_selected(p));
 
-          presentation_traits::add_border (first->second, c.first, c.second);
+          presentation_traits::add_border (first->second, c.first, c.second, args...);
           presentation_traits::focused(first->second);
           structure::document::set_focus(d, first->first, descriptor);
 
           presentation_traits::reset_focus(p);
-          presentation_traits::remove_border(p);
+          presentation_traits::remove_border(p, args...);
         }
         break;
       }
@@ -153,8 +154,8 @@ void focus_select_with_descriptor(Media m, Presentation p, Document d
   
 }
 
-template <typename Media, typename Document, typename Key>
-void focus_select(Media m, Document d, Key key)
+template <typename Media, typename Document, typename Key, typename...Args>
+void focus_select(Media m, Document d, Key key, Args&&... args)
 {
   typedef typename boost::unwrap_reference<Media>::type media_type;
   typedef typename boost::unwrap_reference<Document>::type document_type;
@@ -177,7 +178,7 @@ void focus_select(Media m, Document d, Key key)
     if(presentation_traits::is_focused(*first))
     {
       descriptor_type descriptor = presentation_traits::current_descriptor(*first);
-      focus_select_with_descriptor(m, *first, d, key, descriptor);
+      focus_select_with_descriptor(m, *first, d, key, descriptor, args...);
       break;
     }
     ++first;

@@ -151,7 +151,8 @@ void start_action_traits::start(Media m, Location l, OptionalInterface interface
     std::pair<width_type, color_type>
       r = media::calculate_focused_border (presentation, descriptor, false);
     if(r.first)
-      presentation_traits::add_border(presentation, r.first, r.second);
+      presentation_traits::add_border(presentation, r.first, r.second
+              BOOST_PP_ENUM_TRAILING_PARAMS (BOOST_PP_ITERATION (), a));
   }
 
   // Media can't be selected since we're starting it now. But

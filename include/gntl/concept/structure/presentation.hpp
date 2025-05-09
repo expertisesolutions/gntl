@@ -95,8 +95,8 @@ struct Presentation
     traits::selected(i);
     traits::reset_focus(i);
     traits::reset_selection(i);
-    traits::add_border(i, border_size, color);
-    traits::remove_border(i);
+    //traits::add_border(i, border_size, color);
+    //traits::remove_border(i);
     traits::area_frame_begin (i, component_id, unsigned_int);
     traits::area_frame_end (i, component_id, unsigned_int);
     traits::area_frame_begin_end (i, component_id, unsigned_int, unsigned_int);

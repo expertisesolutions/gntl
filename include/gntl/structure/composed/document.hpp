@@ -364,10 +364,10 @@ struct document
       result_type operator()(self_type& document, int i) const
       {
         GNTL_DEBUG_LOG("set_next_focus_index " << i << std::endl)
-        if(!!document.next_focus_index)
+          /*if(!!document.next_focus_index)
           GNTL_UNWIND_ERROR_INFO(gntl::invalid_ncl_error()
                                  , (typename error::reason<const char*>::type
-                                    ("Trying to set a property being set")));
+                                 ("Trying to set a property being set")));*/
         document.next_focus_index = i;
       }
       template <typename T>
@@ -430,10 +430,12 @@ struct document
       {
       case current_focus_name:
       {
-        assert(!!document.next_focus_index);
-        GNTL_DEBUG_LOG("commit focus_index " << *document.next_focus_index << std::endl)
-        document.focus_index = document.next_focus_index;
-        document.next_focus_index = boost::none;
+        if (document.next_focus_index) {
+            assert(!!document.next_focus_index);
+            GNTL_DEBUG_LOG("commit focus_index " << *document.next_focus_index << std::endl)
+            document.focus_index = document.next_focus_index;
+            document.next_focus_index = boost::none;
+        }
         break;
       }
       case current_key_master_name:

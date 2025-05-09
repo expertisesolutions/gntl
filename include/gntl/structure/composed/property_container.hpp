@@ -154,10 +154,10 @@ struct property_container
       if(iterator != local_properties.end())
       {
         property_type property = *iterator;
-        if(!!property.new_value)
-          GNTL_UNWIND_ERROR_INFO(gntl::invalid_ncl_error()
-                                 , (typename error::reason<const char*>::type
-                                    ("Trying to set a property being set")));
+        // if(!!property.new_value)
+        //   GNTL_UNWIND_ERROR_INFO(gntl::invalid_ncl_error()
+        //                          , (typename error::reason<const char*>::type
+        //                             ("Trying to set a property being set")));
         property.new_value = v;
         local_properties.erase(iterator);
         local_properties.insert(property);
@@ -165,10 +165,10 @@ struct property_container
       else
       {
         property_type property(name);
-        if(!!property.new_value)
-          GNTL_UNWIND_ERROR_INFO(gntl::invalid_ncl_error()
-                                 , (typename error::reason<const char*>::type
-                                    ("Trying to set a property being set")));
+        // if(!!property.new_value)
+        //   GNTL_UNWIND_ERROR_INFO(gntl::invalid_ncl_error()
+        //                          , (typename error::reason<const char*>::type
+        //                             ("Trying to set a property being set")));
         property.new_value = v;
         local_properties.insert(property);
       }
@@ -264,6 +264,7 @@ struct property_container
       if(iterator != local_properties.end())
       {
         property_type property = *iterator;
+        GNTL_DEBUG_LOG("property_container::commit_set setting value " << property.new_value << std::endl;);
         std::swap(property.current_value, property.new_value);
         property.new_value = boost::none;
         local_properties.erase(iterator);

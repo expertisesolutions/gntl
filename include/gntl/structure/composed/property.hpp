@@ -45,6 +45,17 @@ struct property
 
   String name;
   boost::optional<unique_variant_type> current_value, new_value;
+
+  friend inline std::ostream& operator<<(std::ostream& os, property<String, Integer, Decimal> p) {
+    os << "name: " << p.name;
+    std::visit([&os] (auto&& v) {
+      os << " new_value: " << v;
+    }, p.new_value);
+    std::visit([&os] (auto&& v) {
+      os << " old_value: " << v;
+    }, p.current_value);
+    return os;
+  }
 };
 
 } }

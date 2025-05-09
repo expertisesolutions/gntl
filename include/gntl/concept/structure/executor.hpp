@@ -98,8 +98,8 @@ struct Executor : boost::CopyConstructible<X>
        <typename boost::mpl::begin<abort_function_overloads>::type>()
        , boost::mpl::identity
        <typename boost::mpl::end<abort_function_overloads>::type>());
-    traits::remove_border(e);
-    traits::add_border(e, 1u, color);
+    //traits::remove_border(e);
+    //traits::add_border(e, 1u, color);
     traits::area_time_begin(e, component_id, time);
     traits::area_time_end(e, component_id, time);
     traits::area_time_begin_end(e, component_id, time, time);

@@ -60,7 +60,7 @@ void stop_action_traits::stop(Media m, Presentation presentation
 
   presentation_traits::reset_focus(presentation);
   presentation_traits::reset_selection(presentation);
-  presentation_traits::remove_border(presentation);
+  presentation_traits::remove_border(presentation BOOST_PP_ENUM_TRAILING_PARAMS (BOOST_PP_ITERATION (), a));
 
   presentation_traits::stop
     (presentation
@@ -114,7 +114,7 @@ void stop_action_traits::stop(Media m, Presentation presentation
             c = media::calculate_focused_border (first->second, descriptor
                                                  , presentation_traits
                                                  ::is_selected(first->second));
-          presentation_traits::add_border (first->second, c.first, c.second);
+          presentation_traits::add_border (first->second, c.first, c.second BOOST_PP_ENUM_TRAILING_PARAMS (BOOST_PP_ITERATION (), a));
           presentation_traits::focused(first->second);
           structure::document::set_focus(document, first->first, descriptor);
           focus_change = true;

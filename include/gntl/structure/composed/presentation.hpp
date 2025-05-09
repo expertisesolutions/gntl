@@ -208,13 +208,15 @@ struct presentation_traits<gntl::structure::composed::presentation<Executor, Des
     return p.shared_state_->descriptor;
   }
 
-  static void add_border(presentation_type& p, int border, color_type color)
+  template <typename ...Args>
+  static void add_border(presentation_type& p, int border, color_type color, Args&&... args)
   {
-    executor_traits::add_border(p.shared_state_->executor, border, color);
+    executor_traits::add_border(p.shared_state_->executor, border, color, args...);
   }
-  static void remove_border(presentation_type& p)
+  template <typename... Args>
+  static void remove_border(presentation_type& p, Args&&...args)
   {
-    executor_traits::remove_border(p.shared_state_->executor);
+    executor_traits::remove_border(p.shared_state_->executor, args...);
   }
 
   static void area_frame_begin(presentation_type& p, component_identifier i, unsigned int frame)
